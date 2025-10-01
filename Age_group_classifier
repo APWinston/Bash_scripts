@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Prompt the user for their age
+read -p "Enter your age: " age
+
+# Check if the input is a number
+if ! [[ "$age" =~ ^[0-9]+$ ]]; then
+    echo "Please enter a valid number."
+    exit 1
+fi
+
+# Classify based on age
+if (( age >= 0 && age <= 12 )); then
+    echo "You are a child"
+elif (( age >= 13 && age <= 19 )); then
+    echo "You are a teenager"
+elif (( age >= 20 && age <= 64 )); then
+    echo "You are an adult"
+elif (( age >= 65 )); then
+    echo "You are a senior"
+else
+    echo "Invalid age entered"
+fi
+
