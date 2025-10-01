@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Base rates (as of example, you can adjust manually)
+# 1 USD = X in each currency
+USD_TO_GHC=11
+USD_TO_EUR=0.92
+USD_TO_GBP=0.78
+USD_TO_JPY=150
+USD_TO_NGN=1600
+
+echo "Available currencies: USD, GHC, EUR, GBP, JPY, NGN"
+
+# Get user input
+read -p "Enter amount: " amount
+read -p "Enter base currency (e.g. USD): " from
+read -p "Enter target currency (e.g. GHC): " to
+
+# Function to convert from USD to other
+convert_from_usd() {
+    case $1 in
+        USD) echo "1" ;;
+        GHC) echo "$USD_TO_GHC" ;;
+        EUR) echo "$USD_TO_EUR" ;;
+        GBP) echo "$USD_TO_GBP" ;;
+        JPY) echo "$USD_TO_JPY" ;;
+        NGN) echo "$USD_TO_NGN" ;;
+        *) echo "0" ;;
+    esac
+}
+
+# First convert input to USD
+from_rate=$(convert_from_usd "$from")
+to_rate=$(convert_from_usd "$to")
+
+if [ "$from_rate" == "0" ] || [ "$to_rate" == "0" ]; then
+    echo "Invalid currency!"
+    exit 1
+fi
+
+# Convert: amount_in_usd = amount / from_rate
+amount_in_usd=$(echo "scale=4; $amount / $from_rate" | bc)
+
+# Final conversion: amount_in_usd * to_rate
+result=$(echo "scale=4; $amount_in_usd * $to_rate" | bc)
+
+echo "$amount $from = $result $to"
+
