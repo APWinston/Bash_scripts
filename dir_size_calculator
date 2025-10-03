@@ -1,0 +1,16 @@
+#!/bin/bash
+# Script to calculate total size of files in Bash_scripts directory
+
+DIR="."
+
+# Check if directory exists
+if [ ! -d "$DIR" ]; then
+    echo "Error: Directory '$DIR' does not exist."
+    exit 1
+fi
+
+echo "Calculating total size of files in '$DIR'..."
+
+# Use du to calculate size
+du -sh "$DIR"
+
